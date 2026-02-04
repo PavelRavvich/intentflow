@@ -10,14 +10,15 @@
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <style>
         :root {
-            --primary: #6366f1;
-            --secondary: #8b5cf6;
-            --bg: #0f0f1a;
-            --bg-card: #1a1a2e;
-            --bg-code: #252540;
-            --text: #e2e8f0;
-            --text-muted: #94a3b8;
-            --border: #2d2d4a;
+            --primary: #ffffff;
+            --secondary: #a1a1aa;
+            --accent: #3b82f6;
+            --bg: #000000;
+            --bg-card: #0a0a0a;
+            --bg-code: #111111;
+            --text: #fafafa;
+            --text-muted: #71717a;
+            --border: #27272a;
         }
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
@@ -31,7 +32,7 @@
             border-bottom: 1px solid var(--border);
             position: sticky;
             top: 0;
-            background: rgba(15, 15, 26, 0.95);
+            background: rgba(0, 0, 0, 0.95);
             backdrop-filter: blur(10px);
             z-index: 100;
         }
@@ -46,9 +47,7 @@
         .logo {
             font-size: 1.5rem;
             font-weight: 700;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            color: var(--text);
             text-decoration: none;
         }
         .nav-links { display: flex; gap: 24px; list-style: none; }
@@ -58,13 +57,11 @@
         #content h1 {
             font-size: 2.5rem;
             margin-bottom: 24px;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            color: var(--text);
         }
         #content h2 { font-size: 1.75rem; margin: 48px 0 24px; padding-top: 24px; border-top: 1px solid var(--border); }
-        #content h3 { font-size: 1.25rem; margin: 32px 0 16px; color: var(--primary); }
-        #content h4 { font-size: 1.1rem; margin: 24px 0 12px; color: var(--secondary); }
+        #content h3 { font-size: 1.25rem; margin: 32px 0 16px; color: var(--accent); }
+        #content h4 { font-size: 1.1rem; margin: 24px 0 12px; color: var(--text-muted); }
         #content p { margin-bottom: 16px; }
         #content code { font-family: 'JetBrains Mono', monospace; background: var(--bg-code); padding: 2px 8px; border-radius: 4px; font-size: 0.9em; }
         #content pre { background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; padding: 20px 24px; overflow-x: auto; margin: 20px 0; }
@@ -75,11 +72,11 @@
         #content th, #content td { padding: 12px 16px; text-align: left; border-bottom: 1px solid var(--border); }
         #content th { background: var(--bg-card); font-weight: 600; }
         #content strong { color: var(--text); font-weight: 600; }
-        #content a { color: var(--primary); text-decoration: none; }
+        #content a { color: var(--accent); text-decoration: none; }
         #content a:hover { text-decoration: underline; }
         #content hr { border: none; border-top: 1px solid var(--border); margin: 48px 0; }
         footer { padding: 40px 24px; border-top: 1px solid var(--border); text-align: center; color: var(--text-muted); }
-        footer a { color: var(--primary); text-decoration: none; }
+        footer a { color: var(--accent); text-decoration: none; }
         @media (max-width: 768px) { .nav-links { display: none; } }
     </style>
 </head>

@@ -9,16 +9,17 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary: #6366f1;
-            --primary-dark: #4f46e5;
-            --secondary: #8b5cf6;
-            --bg: #0f0f1a;
-            --bg-card: #1a1a2e;
-            --bg-code: #252540;
-            --text: #e2e8f0;
-            --text-muted: #94a3b8;
-            --border: #2d2d4a;
-            --success: #10b981;
+            --primary: #ffffff;
+            --primary-dark: #e5e5e5;
+            --secondary: #a1a1aa;
+            --accent: #3b82f6;
+            --bg: #000000;
+            --bg-card: #0a0a0a;
+            --bg-code: #111111;
+            --text: #fafafa;
+            --text-muted: #71717a;
+            --border: #27272a;
+            --success: #22c55e;
         }
         
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -54,9 +55,7 @@
         .logo {
             font-size: 1.5rem;
             font-weight: 700;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            color: var(--text);
             text-decoration: none;
         }
         
@@ -78,9 +77,7 @@
         h1 {
             font-size: 2.5rem;
             margin-bottom: 16px;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            color: var(--text);
         }
         
         .subtitle {
@@ -99,7 +96,7 @@
         h3 {
             font-size: 1.125rem;
             margin: 32px 0 16px;
-            color: var(--primary);
+            color: var(--accent);
         }
         
         p { margin-bottom: 16px; }
@@ -134,7 +131,8 @@
             justify-content: center;
             width: 32px;
             height: 32px;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            background: var(--text);
+            color: var(--bg);
             border-radius: 50%;
             font-weight: 600;
             margin-right: 12px;
@@ -187,11 +185,11 @@
             margin: 0;
         }
         
-        .workflow-content .comment { color: #6b7280; }
-        .workflow-content .heading { color: #60a5fa; font-weight: 600; }
-        .workflow-content .subheading { color: #f472b6; }
-        .workflow-content .keyword { color: #c084fc; }
-        .workflow-content .string { color: #34d399; }
+        .workflow-content .comment { color: #52525b; }
+        .workflow-content .heading { color: var(--text); font-weight: 600; }
+        .workflow-content .subheading { color: var(--accent); }
+        .workflow-content .keyword { color: var(--accent); }
+        .workflow-content .string { color: #a1a1aa; }
         
         .tip {
             background: rgba(16, 185, 129, 0.1);
@@ -259,7 +257,7 @@
         }
         
         .next-steps a {
-            color: var(--primary);
+            color: var(--accent);
             text-decoration: none;
         }
         
@@ -276,7 +274,7 @@
         }
         
         footer a {
-            color: var(--primary);
+            color: var(--accent);
             text-decoration: none;
         }
     </style>

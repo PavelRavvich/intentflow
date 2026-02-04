@@ -5,22 +5,25 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>IntentFlow - MCP & Skills orchestration in plain Markdown</title>
     <meta name="description" content="Write human-readable workflows that chain AI tools. Install, configure, and sequence MCP servers and Skills — without code.">
+    <meta name="theme-color" content="#000000">
+    <meta name="color-scheme" content="dark">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary: #6366f1;
-            --primary-dark: #4f46e5;
-            --secondary: #8b5cf6;
-            --bg: #0f0f1a;
-            --bg-card: #1a1a2e;
-            --bg-code: #252540;
-            --text: #e2e8f0;
-            --text-muted: #94a3b8;
-            --border: #2d2d4a;
-            --success: #10b981;
-            --warning: #f59e0b;
+            --primary: #ffffff;
+            --primary-dark: #e5e5e5;
+            --secondary: #a1a1aa;
+            --accent: #3b82f6;
+            --bg: #000000;
+            --bg-card: #0a0a0a;
+            --bg-code: #111111;
+            --text: #fafafa;
+            --text-muted: #71717a;
+            --border: #27272a;
+            --success: #22c55e;
+            --warning: #eab308;
         }
         
         * {
@@ -48,7 +51,7 @@
             border-bottom: 1px solid var(--border);
             position: sticky;
             top: 0;
-            background: rgba(15, 15, 26, 0.9);
+            background: rgba(0, 0, 0, 0.9);
             backdrop-filter: blur(10px);
             z-index: 100;
         }
@@ -62,10 +65,7 @@
         .logo {
             font-size: 1.5rem;
             font-weight: 700;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
+            color: var(--text);
         }
         
         .nav-links {
@@ -97,13 +97,12 @@
         }
         
         .btn-primary {
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            color: white;
+            background: var(--text);
+            color: var(--bg);
         }
         
         .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 40px rgba(99, 102, 241, 0.3);
+            background: var(--primary-dark);
         }
         
         .btn-secondary {
@@ -113,7 +112,7 @@
         }
         
         .btn-secondary:hover {
-            border-color: var(--primary);
+            border-color: var(--text-muted);
         }
         
         /* Hero */
@@ -125,11 +124,11 @@
         .badge {
             display: inline-block;
             padding: 6px 16px;
-            background: rgba(99, 102, 241, 0.1);
-            border: 1px solid rgba(99, 102, 241, 0.3);
+            background: var(--bg-card);
+            border: 1px solid var(--border);
             border-radius: 100px;
             font-size: 0.875rem;
-            color: var(--primary);
+            color: var(--text-muted);
             margin-bottom: 24px;
         }
         
@@ -141,10 +140,7 @@
         }
         
         h1 span {
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
+            color: var(--text);
         }
         
         .hero p {
@@ -214,11 +210,11 @@
             white-space: pre-wrap;
         }
         
-        .code-content .comment { color: #6b7280; }
-        .code-content .keyword { color: #c084fc; }
-        .code-content .string { color: #34d399; }
-        .code-content .section { color: #60a5fa; font-weight: 600; }
-        .code-content .subsection { color: #f472b6; }
+        .code-content .comment { color: #52525b; }
+        .code-content .keyword { color: var(--accent); }
+        .code-content .string { color: #a1a1aa; }
+        .code-content .section { color: var(--text); font-weight: 600; }
+        .code-content .subsection { color: var(--accent); }
         
         /* Features */
         .features {
@@ -255,14 +251,15 @@
         }
         
         .feature-card:hover {
-            border-color: var(--primary);
+            border-color: var(--text-muted);
             transform: translateY(-4px);
         }
         
         .feature-icon {
             width: 48px;
             height: 48px;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            background: var(--bg-code);
+            border: 1px solid var(--border);
             border-radius: 12px;
             display: flex;
             align-items: center;
@@ -315,7 +312,7 @@
         }
         
         tr:hover td {
-            background: rgba(99, 102, 241, 0.05);
+            background: rgba(255, 255, 255, 0.02);
         }
         
         .tag {
@@ -356,7 +353,7 @@
         }
         
         footer a {
-            color: var(--primary);
+            color: var(--accent);
             text-decoration: none;
         }
         
@@ -509,7 +506,7 @@ professional Word document with sales summary.</pre>
             </div>
             
             <p style="text-align: center; margin-top: 32px; color: var(--text-muted);">
-                <a href="docs/mcp-orchestration.html" style="color: var(--primary); text-decoration: none;">Read the full MCP Orchestration Guide →</a>
+                <a href="docs/mcp-orchestration.html" style="color: var(--accent); text-decoration: none;">Read the full MCP Orchestration Guide →</a>
             </p>
         </div>
     </section>

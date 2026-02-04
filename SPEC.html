@@ -9,16 +9,17 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary: #6366f1;
-            --secondary: #8b5cf6;
-            --bg: #0f0f1a;
-            --bg-card: #1a1a2e;
-            --bg-code: #252540;
-            --text: #e2e8f0;
-            --text-muted: #94a3b8;
-            --border: #2d2d4a;
-            --success: #10b981;
-            --warning: #f59e0b;
+            --primary: #ffffff;
+            --secondary: #a1a1aa;
+            --accent: #3b82f6;
+            --bg: #000000;
+            --bg-card: #0a0a0a;
+            --bg-code: #111111;
+            --text: #fafafa;
+            --text-muted: #71717a;
+            --border: #27272a;
+            --success: #22c55e;
+            --warning: #eab308;
         }
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
@@ -32,7 +33,7 @@
             border-bottom: 1px solid var(--border);
             position: sticky;
             top: 0;
-            background: rgba(15, 15, 26, 0.95);
+            background: rgba(0, 0, 0, 0.95);
             backdrop-filter: blur(10px);
             z-index: 100;
         }
@@ -47,9 +48,7 @@
         .logo {
             font-size: 1.5rem;
             font-weight: 700;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            color: var(--text);
             text-decoration: none;
         }
         .nav-links { display: flex; gap: 24px; list-style: none; }
@@ -60,14 +59,12 @@
         h1 {
             font-size: 2.5rem;
             margin-bottom: 8px;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            color: var(--text);
         }
         .version { color: var(--text-muted); margin-bottom: 48px; }
         h2 { font-size: 1.75rem; margin: 56px 0 24px; padding-top: 24px; border-top: 1px solid var(--border); }
-        h3 { font-size: 1.25rem; margin: 32px 0 16px; color: var(--primary); }
-        h4 { font-size: 1.1rem; margin: 24px 0 12px; color: var(--secondary); }
+        h3 { font-size: 1.25rem; margin: 32px 0 16px; color: var(--accent); }
+        h4 { font-size: 1.1rem; margin: 24px 0 12px; color: var(--text-muted); }
         p { margin-bottom: 16px; }
         
         code {
@@ -109,7 +106,7 @@
         .toc h3 { margin-top: 0; color: var(--text); }
         .toc ul { list-style: none; padding-left: 0; margin: 0; }
         .toc li { margin-bottom: 8px; }
-        .toc a { color: var(--primary); text-decoration: none; }
+        .toc a { color: var(--accent); text-decoration: none; }
         .toc a:hover { text-decoration: underline; }
         
         .principle {
@@ -118,8 +115,8 @@
             margin-bottom: 12px;
         }
         .principle-num {
-            background: var(--primary);
-            color: white;
+            background: var(--text);
+            color: var(--bg);
             width: 24px;
             height: 24px;
             border-radius: 50%;
@@ -149,7 +146,7 @@
             color: var(--text-muted);
             margin-top: 80px;
         }
-        footer a { color: var(--primary); text-decoration: none; }
+        footer a { color: var(--accent); text-decoration: none; }
         
         @media (max-width: 768px) {
             .nav-links { display: none; }
