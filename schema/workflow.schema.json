@@ -1,0 +1,154 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://intentflow.dev/schema/workflow.json",
+  "title": "IntentFlow Workflow Schema",
+  "description": "JSON representation of an IntentFlow workflow for validation purposes",
+  "type": "object",
+  "required": ["title", "steps"],
+  "properties": {
+    "title": {
+      "type": "string",
+      "description": "Workflow title",
+      "minLength": 1
+    },
+    "meta": {
+      "type": "object",
+      "description": "Workflow metadata",
+      "properties": {
+        "version": {
+          "type": "string",
+          "description": "Workflow version (semver recommended)"
+        },
+        "author": {
+          "type": "string",
+          "description": "Workflow author"
+        },
+        "requires": {
+          "type": "string",
+          "description": "Runtime requirements"
+        },
+        "estimated_time": {
+          "type": "string",
+          "description": "Expected execution time"
+        },
+        "tags": {
+          "type": "array",
+          "items": {"type": "string"},
+          "description": "Categorization tags"
+        }
+      }
+    },
+    "context": {
+      "type": "string",
+      "description": "Background information for the executor"
+    },
+    "steps": {
+      "type": "array",
+      "description": "Workflow steps",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/definitions/step"
+      }
+    },
+    "finalization": {
+      "$ref": "#/definitions/finalization"
+    }
+  },
+  "definitions": {
+    "step": {
+      "type": "object",
+      "required": ["number", "title", "task"],
+      "properties": {
+        "number": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "Step number"
+        },
+        "title": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Step title"
+        },
+        "dependencies": {
+          "type": "array",
+          "items": {"type": "string"},
+          "description": "Commands to install dependencies"
+        },
+        "configuration": {
+          "type": "string",
+          "description": "Setup instructions or environment details"
+        },
+        "task": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Core instruction - what to accomplish"
+        },
+        "save_as": {
+          "type": "string",
+          "description": "Output file path"
+        },
+        "success_criteria": {
+          "type": "array",
+          "items": {"type": "string"},
+          "description": "Verifiable conditions for completion"
+        },
+        "flexibility": {
+          "type": "object",
+          "properties": {
+            "level": {
+              "type": "string",
+              "enum": ["strict", "guided", "autonomous"],
+              "default": "guided",
+              "description": "Flexibility level"
+            },
+            "description": {
+              "type": "string",
+              "description": "What flexibility is allowed"
+            }
+          }
+        },
+        "constraints": {
+          "type": "array",
+          "items": {"type": "string"},
+          "description": "Hard limits that must not be violated"
+        },
+        "error_handling": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["condition", "action"],
+            "properties": {
+              "condition": {
+                "type": "string",
+                "description": "Error condition"
+              },
+              "action": {
+                "type": "string",
+                "description": "Fallback action"
+              }
+            }
+          },
+          "description": "Fallback strategies for failures"
+        }
+      }
+    },
+    "finalization": {
+      "type": "object",
+      "properties": {
+        "after_completion": {
+          "type": "array",
+          "items": {"type": "string"},
+          "description": "Cleanup and output instructions"
+        },
+        "notification": {
+          "type": "string",
+          "description": "Summary instructions"
+        },
+        "on_failure": {
+          "type": "string",
+          "description": "What to do if any step failed"
+        }
+      }
+    }
+  }
+}

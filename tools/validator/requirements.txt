@@ -1,0 +1,9 @@
+# IntentFlow Validator Dependencies
+# Install with: pip install -r requirements.txt
+
+# No external dependencies for basic validator
+# The validator uses only Python standard library
+
+# Optional: For extended functionality
+# pytest>=7.0.0        # For running tests
+# jsonschema>=4.0.0    # For JSON schema validation
