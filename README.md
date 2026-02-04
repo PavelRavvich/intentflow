@@ -4,6 +4,7 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Spec Version](https://img.shields.io/badge/spec-v0.1-blue.svg)](SPEC.md)
+[![GitHub](https://img.shields.io/github/stars/PavelRavvich/intentflow?style=social)](https://github.com/PavelRavvich/intentflow)
 
 ---
 
