@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Specification v0.1 - IntentFlow</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #6366f1;
+            --secondary: #8b5cf6;
+            --bg: #0f0f1a;
+            --bg-card: #1a1a2e;
+            --bg-code: #252540;
+            --text: #e2e8f0;
+            --text-muted: #94a3b8;
+            --border: #2d2d4a;
+            --success: #10b981;
+            --warning: #f59e0b;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.7;
+        }
+        header {
+            padding: 20px 0;
+            border-bottom: 1px solid var(--border);
+            position: sticky;
+            top: 0;
+            background: rgba(15, 15, 26, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 100;
+        }
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-decoration: none;
+        }
+        .nav-links { display: flex; gap: 24px; list-style: none; }
+        .nav-links a { color: var(--text-muted); text-decoration: none; font-weight: 500; }
+        .nav-links a:hover { color: var(--text); }
+        .container { max-width: 900px; margin: 0 auto; padding: 60px 24px; }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 8px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .version { color: var(--text-muted); margin-bottom: 48px; }
+        h2 { font-size: 1.75rem; margin: 56px 0 24px; padding-top: 24px; border-top: 1px solid var(--border); }
+        h3 { font-size: 1.25rem; margin: 32px 0 16px; color: var(--primary); }
+        h4 { font-size: 1.1rem; margin: 24px 0 12px; color: var(--secondary); }
+        p { margin-bottom: 16px; }
+        
+        code {
+            font-family: 'JetBrains Mono', monospace;
+            background: var(--bg-code);
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 0.9em;
+        }
+        pre {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 20px 24px;
+            overflow-x: auto;
+            margin: 20px 0;
+        }
+        pre code {
+            background: none;
+            padding: 0;
+            font-size: 0.875rem;
+            line-height: 1.7;
+        }
+        
+        ul, ol { margin: 16px 0; padding-left: 24px; }
+        li { margin-bottom: 8px; }
+        
+        table { width: 100%; border-collapse: collapse; margin: 24px 0; }
+        th, td { padding: 12px 16px; text-align: left; border-bottom: 1px solid var(--border); }
+        th { background: var(--bg-card); font-weight: 600; }
+        
+        .toc {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 24px 32px;
+            margin-bottom: 48px;
+        }
+        .toc h3 { margin-top: 0; color: var(--text); }
+        .toc ul { list-style: none; padding-left: 0; margin: 0; }
+        .toc li { margin-bottom: 8px; }
+        .toc a { color: var(--primary); text-decoration: none; }
+        .toc a:hover { text-decoration: underline; }
+        
+        .principle {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+        .principle-num {
+            background: var(--primary);
+            color: white;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
+            font-weight: 600;
+            flex-shrink: 0;
+        }
+        
+        .tag {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 100px;
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+        .tag-strict { background: rgba(239, 68, 68, 0.2); color: #f87171; }
+        .tag-guided { background: rgba(99, 102, 241, 0.2); color: #818cf8; }
+        .tag-autonomous { background: rgba(16, 185, 129, 0.2); color: #34d399; }
+        
+        footer {
+            padding: 40px 24px;
+            border-top: 1px solid var(--border);
+            text-align: center;
+            color: var(--text-muted);
+            margin-top: 80px;
+        }
+        footer a { color: var(--primary); text-decoration: none; }
+        
+        @media (max-width: 768px) {
+            .nav-links { display: none; }
+            h1 { font-size: 2rem; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="index.html" class="logo">⚡ IntentFlow</a>
+            <ul class="nav-links">
+                <li><a href="docs/getting-started.html">Getting Started</a></li>
+                <li><a href="https://github.com/PavelRavvich/intentflow/tree/master/examples">Examples</a></li>
+                <li><a href="https://github.com/PavelRavvich/intentflow">GitHub</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="container">
+        <h1>IntentFlow Specification</h1>
+        <p class="version">Version 0.1 · February 2025</p>
+
+        <div class="toc">
+            <h3>Table of Contents</h3>
+            <ul>
+                <li><a href="#abstract">Abstract</a></li>
+                <li><a href="#principles">Design Principles</a></li>
+                <li><a href="#structure">Document Structure</a></li>
+                <li><a href="#meta">Meta Section</a></li>
+                <li><a href="#steps">Step Structure</a></li>
+                <li><a href="#flexibility">Flexibility Levels</a></li>
+                <li><a href="#linking">Step Linking</a></li>
+                <li><a href="#finalization">Finalization</a></li>
+                <li><a href="#validation">Validation Rules</a></li>
+                <li><a href="#example">Complete Example</a></li>
+            </ul>
+        </div>
+
+        <h2 id="abstract">Abstract</h2>
+        <p>IntentFlow is a Markdown-based specification for defining workflows that can be executed by Large Language Models (LLMs). It bridges the gap between rigid scripted automation and fully autonomous AI agents by providing structured intent with controlled flexibility.</p>
+
+        <h2 id="principles">Design Principles</h2>
+        <div class="principle"><span class="principle-num">1</span><strong>Human-first</strong> — A workflow should be readable by someone with no programming experience</div>
+        <div class="principle"><span class="principle-num">2</span><strong>Executable</strong> — Structure must be consistent enough for LLM parsing</div>
+        <div class="principle"><span class="principle-num">3</span><strong>Flexible</strong> — Explicitly define where deviation is allowed</div>
+        <div class="principle"><span class="principle-num">4</span><strong>Portable</strong> — Plain Markdown, no proprietary formats</div>
+        <div class="principle"><span class="principle-num">5</span><strong>Composable</strong> — Steps communicate through files, enabling loose coupling</div>
+
+        <h2 id="structure">Document Structure</h2>
+        <pre><code># Workflow: {Title}
+
+## Meta
+{metadata key-value pairs}
+
+## Context
+{background information for the executor}
+
+---
+
+## Step {N}: {Step Title}
+{step content}
+
+---
+
+## Finalization
+{cleanup and output instructions}</code></pre>
+
+        <h2 id="meta">Meta Section</h2>
+        <p>Optional metadata about the workflow:</p>
+        <pre><code>## Meta
+version: 1.0
+author: John Doe
+requires: Claude with computer use
+estimated_time: 30 minutes
+tags: data, analysis, reporting</code></pre>
+
+        <table>
+            <thead><tr><th>Key</th><th>Description</th></tr></thead>
+            <tbody>
+                <tr><td><code>version</code></td><td>Workflow version (semver recommended)</td></tr>
+                <tr><td><code>author</code></td><td>Creator of the workflow</td></tr>
+                <tr><td><code>requires</code></td><td>Runtime requirements</td></tr>
+                <tr><td><code>estimated_time</code></td><td>Expected execution time</td></tr>
+                <tr><td><code>tags</code></td><td>Comma-separated categorization</td></tr>
+            </tbody>
+        </table>
+
+        <h2 id="steps">Step Structure</h2>
+        <p>Each step <strong>MUST</strong> contain a <code>Task</code> section. All other sections are optional.</p>
+
+        <h3>Task (Required)</h3>
+        <p>The core instruction. Describes <strong>WHAT</strong> to accomplish, not <strong>HOW</strong>.</p>
+        <pre><code>### Task
+Fetch all customer reviews from the past 30 days.
+Extract the review text, rating, and timestamp.
+Handle pagination if the API returns partial results.</code></pre>
+        <p><strong>Guidelines:</strong></p>
+        <ul>
+            <li>Use imperative mood ("Fetch", "Calculate", "Generate")</li>
+            <li>Focus on outcomes, not implementation</li>
+            <li>Be specific about data requirements</li>
+            <li>One logical unit of work per step</li>
+        </ul>
+
+        <h3>Dependencies (Optional)</h3>
+        <p>Tools, packages, or services required for this step:</p>
+        <pre><code>### Dependencies
+```bash
+pip install pandas numpy --break-system-packages
+npm install -g @anthropic/mcp-server-postgres
+```</code></pre>
+
+        <h3>Save As (Optional)</h3>
+        <p>Output file path. Creates a contract for subsequent steps:</p>
+        <pre><code>### Save as
+`/tmp/workflow/reviews.parquet`</code></pre>
+
+        <h3>Success Criteria (Optional)</h3>
+        <p>Verifiable conditions that indicate step completion:</p>
+        <pre><code>### Success criteria
+- Output file exists and is valid JSON
+- Contains at least 100 records
+- No null values in required fields: `id`, `timestamp`, `amount`
+- All timestamps are within the specified date range</code></pre>
+
+        <h3>Flexibility (Optional)</h3>
+        <p>Explicit permission to deviate from instructions:</p>
+        <pre><code>### Flexibility
+If the primary API is unavailable, you may use the backup endpoint.
+Additional data enrichment is welcome if it improves the analysis.</code></pre>
+
+        <h3>Constraints (Optional)</h3>
+        <p>Hard limits that <strong>MUST NOT</strong> be violated:</p>
+        <pre><code>### Constraints
+- Do not make more than 100 API calls per minute
+- Output file must not exceed 50MB
+- Do not include any PII in logs or error messages</code></pre>
+
+        <h3>If Something Goes Wrong (Optional)</h3>
+        <p>Fallback strategies for common failure modes:</p>
+        <pre><code>### If something goes wrong
+- API returns 429 → wait 60 seconds, then retry up to 3 times
+- No data in date range → expand to 90 days, document the change
+- Unknown error → stop execution and report the issue</code></pre>
+
+        <h2 id="flexibility">Flexibility Levels</h2>
+        <p>Flexibility can be specified with a level marker: <code>### Flexibility [level]</code></p>
+
+        <h3><span class="tag tag-strict">[strict]</span> No Deviation</h3>
+        <p>Execute exactly as specified.</p>
+        <pre><code>### Flexibility [strict]
+Use exactly the columns specified. Do not add or remove any fields.</code></pre>
+
+        <h3><span class="tag tag-guided">[guided]</span> Within Boundaries (Default)</h3>
+        <p>The executor may choose implementation details but must achieve the stated goal.</p>
+        <pre><code>### Flexibility [guided]
+You may use any HTTP library. Caching is optional but recommended.</code></pre>
+
+        <h3><span class="tag tag-autonomous">[autonomous]</span> Full Discretion</h3>
+        <p>Only the goal matters. The executor has full discretion over approach.</p>
+        <pre><code>### Flexibility [autonomous]
+Create visualizations that best represent the data.
+Use any tools or approaches you think are appropriate.</code></pre>
+
+        <h2 id="linking">Step Linking</h2>
+        <p>Steps are connected through the file system:</p>
+        <pre><code>## Step 1: Extract
+### Save as
+`/tmp/workflow/raw_data.json`
+
+---
+
+## Step 2: Transform
+### Task
+Load the data from the previous step and normalize all timestamps to UTC.</code></pre>
+        <p>The executor infers that Step 2 reads from <code>/tmp/workflow/raw_data.json</code>.</p>
+
+        <h2 id="finalization">Finalization Section</h2>
+        <p>Optional cleanup and output instructions:</p>
+        <pre><code>## Finalization
+
+### After completion
+1. Move all artifacts to `/home/user/outputs/`
+2. Create `manifest.json` listing all generated files
+3. Clean up temporary files
+
+### Notification
+Summarize what was accomplished and where outputs are located.
+
+### If any step failed
+Document which steps completed, which failed, and why.</code></pre>
+
+        <h2 id="validation">Validation Rules</h2>
+        <p>A valid IntentFlow document <strong>MUST</strong>:</p>
+        <ol>
+            <li>Have a level-1 heading as the title</li>
+            <li>Have at least one Step section</li>
+            <li>Each Step MUST have a <code>Task</code> subsection</li>
+            <li>Step numbers should be sequential</li>
+        </ol>
+
+        <p>A valid IntentFlow document <strong>SHOULD</strong>:</p>
+        <ol>
+            <li>Include <code>Save as</code> for steps that produce output</li>
+            <li>Include <code>Success criteria</code> for verification</li>
+            <li>Use consistent heading levels</li>
+        </ol>
+
+        <h2 id="example">Complete Example</h2>
+        <pre><code># Workflow: Weekly Sales Report
+
+## Meta
+version: 1.0
+author: Analytics Team
+estimated_time: 15 minutes
+
+## Context
+Generate the weekly sales report for stakeholders.
+Data comes from the sales database, report goes to #sales-reports Slack.
+
+---
+
+## Step 1: Query Sales Data
+
+### Dependencies
+```bash
+pip install psycopg2-binary pandas --break-system-packages
+```
+
+### Task
+Connect to the sales database and extract:
+- Total revenue by product category
+- Number of orders by region  
+- Top 10 customers by spend
+
+Date range: last 7 days (Monday to Sunday).
+
+### Save as
+`/tmp/workflow/sales_data.json`
+
+### Success criteria
+- File contains all three data sections
+- Revenue values are positive numbers
+- At least 1 order exists
+
+### If something goes wrong
+- Database connection fails → check VPN, retry in 30 seconds
+- No orders in range → generate empty report with explanation
+
+---
+
+## Step 2: Generate Report
+
+### Task
+Create a professional PDF report including:
+- Executive summary (3-4 sentences)
+- Revenue breakdown chart (bar chart by category)
+- Regional performance table
+- Top customers list
+
+### Flexibility [guided]
+Chart styling and exact layout are up to you.
+Additional insights are welcome if the data suggests them.
+
+### Constraints
+- Maximum 3 pages
+- No customer PII (names okay, no emails/phones)
+
+### Save as
+`/tmp/workflow/weekly_sales_report.pdf`
+
+### Success criteria
+- PDF is valid and opens correctly
+- All sections from Task are present
+- File size under 5MB
+
+---
+
+## Finalization
+
+### After completion
+Copy the report to `/home/user/reports/weekly/`
+with filename `sales_report_YYYY-MM-DD.pdf`
+
+### Notification
+Provide a brief summary of key metrics and confirm the report location.</code></pre>
+
+    </main>
+
+    <footer>
+        <p><a href="index.html">← Back to Home</a> · <a href="SPEC.md">View Raw Markdown</a> · <a href="https://github.com/PavelRavvich/intentflow">GitHub</a></p>
+    </footer>
+</body>
+</html>

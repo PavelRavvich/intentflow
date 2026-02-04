@@ -1,10 +1,13 @@
 # IntentFlow
 
-**Human-readable, LLM-executable workflow specification**
+**MCP & Skills orchestration in plain Markdown**
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Spec Version](https://img.shields.io/badge/spec-v0.1-blue.svg)](SPEC.md)
 [![GitHub](https://img.shields.io/github/stars/PavelRavvich/intentflow?style=social)](https://github.com/PavelRavvich/intentflow)
+[![Docs](https://img.shields.io/badge/docs-website-blue)](https://pavelravvich.github.io/intentflow/)
+
+📖 **Documentation:** [pavelravvich.github.io/intentflow](https://pavelravvich.github.io/intentflow/)
 
 ---
 
@@ -50,6 +53,31 @@ Rigid Scripts ←————— IntentFlow ——————→ Full Autonomy
 (Airflow)           structured          (AutoGPT)
                     flexibility
 ```
+
+## MCP & Skills Orchestration
+
+IntentFlow can orchestrate AI tooling — install MCP servers, load Skills, and chain them in workflows:
+
+```markdown
+## Step 1: Setup Database
+### Dependencies
+```bash
+npm install -g @anthropic/mcp-server-postgres
+```
+
+## Step 2: Query Data
+### Task
+Using the Postgres MCP, fetch all orders from last month...
+
+## Step 3: Generate Report  
+### Dependencies
+Read skill at `/mnt/skills/public/docx/SKILL.md`
+
+### Task
+Following the docx skill, create a Word report...
+```
+
+See [MCP Orchestration Guide](docs/mcp-orchestration.md) for details.
 
 ## Key Concepts
 

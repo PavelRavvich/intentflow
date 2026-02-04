@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IntentFlow - MCP & Skills orchestration in plain Markdown</title>
+    <meta name="description" content="Write human-readable workflows that chain AI tools. Install, configure, and sequence MCP servers and Skills — without code.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #6366f1;
+            --primary-dark: #4f46e5;
+            --secondary: #8b5cf6;
+            --bg: #0f0f1a;
+            --bg-card: #1a1a2e;
+            --bg-code: #252540;
+            --text: #e2e8f0;
+            --text-muted: #94a3b8;
+            --border: #2d2d4a;
+            --success: #10b981;
+            --warning: #f59e0b;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+        
+        /* Header */
+        header {
+            padding: 20px 0;
+            border-bottom: 1px solid var(--border);
+            position: sticky;
+            top: 0;
+            background: rgba(15, 15, 26, 0.9);
+            backdrop-filter: blur(10px);
+            z-index: 100;
+        }
+        
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 32px;
+            list-style: none;
+        }
+        
+        .nav-links a {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+        
+        .nav-links a:hover {
+            color: var(--text);
+        }
+        
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-weight: 500;
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 40px rgba(99, 102, 241, 0.3);
+        }
+        
+        .btn-secondary {
+            background: var(--bg-card);
+            color: var(--text);
+            border: 1px solid var(--border);
+        }
+        
+        .btn-secondary:hover {
+            border-color: var(--primary);
+        }
+        
+        /* Hero */
+        .hero {
+            padding: 100px 0 80px;
+            text-align: center;
+        }
+        
+        .badge {
+            display: inline-block;
+            padding: 6px 16px;
+            background: rgba(99, 102, 241, 0.1);
+            border: 1px solid rgba(99, 102, 241, 0.3);
+            border-radius: 100px;
+            font-size: 0.875rem;
+            color: var(--primary);
+            margin-bottom: 24px;
+        }
+        
+        h1 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            line-height: 1.1;
+            margin-bottom: 24px;
+        }
+        
+        h1 span {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .hero p {
+            font-size: 1.25rem;
+            color: var(--text-muted);
+            max-width: 600px;
+            margin: 0 auto 40px;
+        }
+        
+        .hero-buttons {
+            display: flex;
+            gap: 16px;
+            justify-content: center;
+            margin-bottom: 60px;
+        }
+        
+        /* Code Example */
+        .code-window {
+            background: var(--bg-card);
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            overflow: hidden;
+            text-align: left;
+            max-width: 700px;
+            margin: 0 auto;
+            box-shadow: 0 20px 80px rgba(0, 0, 0, 0.4);
+        }
+        
+        .code-header {
+            padding: 12px 16px;
+            background: var(--bg-code);
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .code-dots {
+            display: flex;
+            gap: 6px;
+        }
+        
+        .code-dots span {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+        
+        .code-dots span:nth-child(1) { background: #ff5f56; }
+        .code-dots span:nth-child(2) { background: #ffbd2e; }
+        .code-dots span:nth-child(3) { background: #27ca40; }
+        
+        .code-title {
+            margin-left: 12px;
+            color: var(--text-muted);
+            font-size: 0.875rem;
+        }
+        
+        .code-content {
+            padding: 24px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.875rem;
+            line-height: 1.8;
+            overflow-x: auto;
+            margin: 0;
+            background: var(--bg-card);
+            white-space: pre-wrap;
+        }
+        
+        .code-content .comment { color: #6b7280; }
+        .code-content .keyword { color: #c084fc; }
+        .code-content .string { color: #34d399; }
+        .code-content .section { color: #60a5fa; font-weight: 600; }
+        .code-content .subsection { color: #f472b6; }
+        
+        /* Features */
+        .features {
+            padding: 100px 0;
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+        
+        .section-title h2 {
+            font-size: 2.5rem;
+            margin-bottom: 16px;
+        }
+        
+        .section-title p {
+            color: var(--text-muted);
+            font-size: 1.125rem;
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 24px;
+        }
+        
+        .feature-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 32px;
+            transition: all 0.3s;
+        }
+        
+        .feature-card:hover {
+            border-color: var(--primary);
+            transform: translateY(-4px);
+        }
+        
+        .feature-icon {
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+        }
+        
+        .feature-card h3 {
+            font-size: 1.25rem;
+            margin-bottom: 12px;
+        }
+        
+        .feature-card p {
+            color: var(--text-muted);
+        }
+        
+        /* Comparison */
+        .comparison {
+            padding: 100px 0;
+            background: var(--bg-card);
+        }
+        
+        .comparison-table {
+            max-width: 900px;
+            margin: 0 auto;
+            overflow: hidden;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        th, td {
+            padding: 20px 24px;
+            text-align: left;
+            border-bottom: 1px solid var(--border);
+        }
+        
+        th {
+            background: var(--bg-code);
+            font-weight: 600;
+        }
+        
+        tr:last-child td {
+            border-bottom: none;
+        }
+        
+        tr:hover td {
+            background: rgba(99, 102, 241, 0.05);
+        }
+        
+        .tag {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 100px;
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+        
+        .tag-red { background: rgba(239, 68, 68, 0.2); color: #f87171; }
+        .tag-yellow { background: rgba(245, 158, 11, 0.2); color: #fbbf24; }
+        .tag-green { background: rgba(16, 185, 129, 0.2); color: #34d399; }
+        
+        /* CTA */
+        .cta {
+            padding: 100px 0;
+            text-align: center;
+        }
+        
+        .cta h2 {
+            font-size: 2.5rem;
+            margin-bottom: 16px;
+        }
+        
+        .cta p {
+            color: var(--text-muted);
+            margin-bottom: 32px;
+            font-size: 1.125rem;
+        }
+        
+        /* Footer */
+        footer {
+            padding: 40px 0;
+            border-top: 1px solid var(--border);
+            text-align: center;
+            color: var(--text-muted);
+        }
+        
+        footer a {
+            color: var(--primary);
+            text-decoration: none;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            h1 { font-size: 2.5rem; }
+            .hero { padding: 60px 0 40px; }
+            .nav-links { display: none; }
+            .hero-buttons { flex-direction: column; align-items: center; }
+            .features-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <nav>
+                <div class="logo">⚡ IntentFlow</div>
+                <ul class="nav-links">
+                    <li><a href="#features">Features</a></li>
+                    <li><a href="#orchestration">MCP & Skills</a></li>
+                    <li><a href="SPEC.html">Specification</a></li>
+                    <li><a href="https://github.com/PavelRavvich/intentflow">GitHub</a></li>
+                </ul>
+                <a href="https://github.com/PavelRavvich/intentflow" class="btn btn-primary">
+                    ⭐ Star on GitHub
+                </a>
+            </nav>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="container">
+            <div class="badge">🚀 Version 0.1 Released</div>
+            <h1><span>MCP & Skills orchestration</span><br>in plain Markdown</h1>
+            <p>Write human-readable workflows that chain AI tools.<br>Install, configure, and sequence — without code.</p>
+            <div class="hero-buttons">
+                <a href="docs/getting-started.html" class="btn btn-primary">Get Started →</a>
+                <a href="SPEC.html" class="btn btn-secondary">Read the Spec</a>
+            </div>
+            
+            <div class="code-window">
+                <div class="code-header">
+                    <div class="code-dots">
+                        <span></span><span></span><span></span>
+                    </div>
+                    <span class="code-title">workflow.md</span>
+                </div>
+                <pre class="code-content"><span class="section">## Step 1: Fetch Data</span>
+
+<span class="subsection">### Task</span>
+Download all transactions from the payment API
+for last month. Handle pagination automatically.
+
+<span class="subsection">### Flexibility</span> <span class="keyword">[guided]</span>
+Use any HTTP library.
+Caching is optional but recommended.
+
+<span class="subsection">### Save as</span>
+<span class="string">`/tmp/workflow/transactions.json`</span>
+
+<span class="subsection">### Success criteria</span>
+- File exists and is valid JSON
+- Contains at least 100 records</pre>
+            </div>
+        </div>
+    </section>
+
+    <section class="features" id="features">
+        <div class="container">
+            <div class="section-title">
+                <h2>Why IntentFlow?</h2>
+                <p>The missing layer between rigid scripts and unpredictable AI agents</p>
+            </div>
+            
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">🎯</div>
+                    <h3>Intent over Implementation</h3>
+                    <p>Describe what you want to achieve, not how to do it. Let the AI choose the best approach.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">🎚️</div>
+                    <h3>Graduated Flexibility</h3>
+                    <p>Mark exactly where AI can improvise: <code>[strict]</code>, <code>[guided]</code>, or <code>[autonomous]</code>.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">📄</div>
+                    <h3>Contract-Based Steps</h3>
+                    <p>Steps communicate through files, not code. Clear inputs and outputs for each step.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">🔄</div>
+                    <h3>Natural Failure Handling</h3>
+                    <p>Define fallbacks in plain language: "If X fails → try Y". No try/catch needed.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">✅</div>
+                    <h3>Success Criteria</h3>
+                    <p>Verifiable conditions that confirm step completion. AI validates its own work.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">📖</div>
+                    <h3>Self-Documenting</h3>
+                    <p>The workflow IS the documentation. Readable by developers, managers, and AI alike.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="features" id="orchestration" style="background: var(--bg-card);">
+        <div class="container">
+            <div class="section-title">
+                <h2>MCP & Skills Orchestration</h2>
+                <p>Chain AI tools in declarative workflows</p>
+            </div>
+            
+            <div class="code-window" style="max-width: 800px; margin: 0 auto;">
+                <div class="code-header">
+                    <div class="code-dots"><span></span><span></span><span></span></div>
+                    <span class="code-title">data-pipeline.md</span>
+                </div>
+                <pre class="code-content"><span class="section">## Step 1: Setup Database Access</span>
+
+<span class="subsection">### Dependencies</span>
+<span class="keyword">npm install -g @anthropic/mcp-server-postgres</span>
+
+<span class="subsection">### Task</span>
+Verify connection and list available tables.
+
+<span class="section">## Step 2: Query Data</span>
+
+<span class="subsection">### Task</span>
+Using the Postgres MCP, fetch all orders from last month.
+Join with customers table to get contact info.
+
+<span class="section">## Step 3: Generate Report</span>
+
+<span class="subsection">### Dependencies</span>
+Read skill at <span class="string">`/mnt/skills/public/docx/SKILL.md`</span>
+
+<span class="subsection">### Task</span>
+Following the docx skill instructions, create a
+professional Word document with sales summary.</pre>
+            </div>
+            
+            <p style="text-align: center; margin-top: 32px; color: var(--text-muted);">
+                <a href="docs/mcp-orchestration.html" style="color: var(--primary); text-decoration: none;">Read the full MCP Orchestration Guide →</a>
+            </p>
+        </div>
+    </section>
+
+    <section class="comparison">
+        <div class="container">
+            <div class="section-title">
+                <h2>How IntentFlow Compares</h2>
+                <p>Find the right balance between control and flexibility</p>
+            </div>
+            
+            <div class="comparison-table">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Approach</th>
+                            <th>Flexibility</th>
+                            <th>Predictability</th>
+                            <th>Requires Code</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Traditional Scripts</strong></td>
+                            <td><span class="tag tag-red">None</span></td>
+                            <td><span class="tag tag-green">High</span></td>
+                            <td>Yes</td>
+                        </tr>
+                        <tr>
+                            <td><strong>LangChain / DSPy</strong></td>
+                            <td><span class="tag tag-yellow">Medium</span></td>
+                            <td><span class="tag tag-yellow">Medium</span></td>
+                            <td>Yes (Python)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>IntentFlow</strong></td>
+                            <td><span class="tag tag-green">Controlled</span></td>
+                            <td><span class="tag tag-green">High</span></td>
+                            <td>No</td>
+                        </tr>
+                        <tr>
+                            <td><strong>AutoGPT-style</strong></td>
+                            <td><span class="tag tag-green">Full</span></td>
+                            <td><span class="tag tag-red">Low</span></td>
+                            <td>No</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <section class="cta">
+        <div class="container">
+            <h2>Ready to try IntentFlow?</h2>
+            <p>Write your first workflow in 5 minutes. No installation required.</p>
+            <div class="hero-buttons">
+                <a href="docs/getting-started.html" class="btn btn-primary">Get Started →</a>
+                <a href="https://github.com/PavelRavvich/intentflow" class="btn btn-secondary">View on GitHub</a>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <p>MIT License · Created by <a href="https://github.com/PavelRavvich">Pavel Ravvich</a></p>
+        </div>
+    </footer>
+</body>
+</html>

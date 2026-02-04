@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Getting Started - IntentFlow</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #6366f1;
+            --primary-dark: #4f46e5;
+            --secondary: #8b5cf6;
+            --bg: #0f0f1a;
+            --bg-card: #1a1a2e;
+            --bg-code: #252540;
+            --text: #e2e8f0;
+            --text-muted: #94a3b8;
+            --border: #2d2d4a;
+            --success: #10b981;
+        }
+        
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.7;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+        
+        header {
+            padding: 20px 0;
+            border-bottom: 1px solid var(--border);
+            margin-bottom: 60px;
+        }
+        
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+        
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-decoration: none;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 24px;
+            list-style: none;
+        }
+        
+        .nav-links a {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+        
+        .nav-links a:hover { color: var(--text); }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 16px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .subtitle {
+            font-size: 1.25rem;
+            color: var(--text-muted);
+            margin-bottom: 48px;
+        }
+        
+        h2 {
+            font-size: 1.5rem;
+            margin: 48px 0 24px;
+            padding-top: 24px;
+            border-top: 1px solid var(--border);
+        }
+        
+        h3 {
+            font-size: 1.125rem;
+            margin: 32px 0 16px;
+            color: var(--primary);
+        }
+        
+        p { margin-bottom: 16px; }
+        
+        code {
+            font-family: 'JetBrains Mono', monospace;
+            background: var(--bg-code);
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 0.9em;
+        }
+        
+        pre {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 24px;
+            overflow-x: auto;
+            margin: 24px 0;
+        }
+        
+        pre code {
+            background: none;
+            padding: 0;
+            font-size: 0.875rem;
+            line-height: 1.7;
+        }
+        
+        .step-number {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 50%;
+            font-weight: 600;
+            margin-right: 12px;
+        }
+        
+        .workflow-example {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            overflow: hidden;
+            margin: 24px 0;
+        }
+        
+        .workflow-header {
+            padding: 12px 16px;
+            background: var(--bg-code);
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .workflow-dots {
+            display: flex;
+            gap: 6px;
+        }
+        
+        .workflow-dots span {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+        
+        .workflow-dots span:nth-child(1) { background: #ff5f56; }
+        .workflow-dots span:nth-child(2) { background: #ffbd2e; }
+        .workflow-dots span:nth-child(3) { background: #27ca40; }
+        
+        .workflow-title {
+            margin-left: 12px;
+            color: var(--text-muted);
+            font-size: 0.875rem;
+        }
+        
+        .workflow-content {
+            padding: 24px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.875rem;
+            line-height: 1.8;
+            white-space: pre-wrap;
+            margin: 0;
+        }
+        
+        .workflow-content .comment { color: #6b7280; }
+        .workflow-content .heading { color: #60a5fa; font-weight: 600; }
+        .workflow-content .subheading { color: #f472b6; }
+        .workflow-content .keyword { color: #c084fc; }
+        .workflow-content .string { color: #34d399; }
+        
+        .tip {
+            background: rgba(16, 185, 129, 0.1);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            border-radius: 8px;
+            padding: 16px 20px;
+            margin: 24px 0;
+        }
+        
+        .tip-title {
+            color: var(--success);
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        
+        .warning {
+            background: rgba(245, 158, 11, 0.1);
+            border: 1px solid rgba(245, 158, 11, 0.3);
+            border-radius: 8px;
+            padding: 16px 20px;
+            margin: 24px 0;
+        }
+        
+        .warning-title {
+            color: #f59e0b;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 24px 0;
+        }
+        
+        th, td {
+            padding: 12px 16px;
+            text-align: left;
+            border-bottom: 1px solid var(--border);
+        }
+        
+        th {
+            background: var(--bg-card);
+            font-weight: 600;
+        }
+        
+        ul, ol {
+            margin: 16px 0;
+            padding-left: 24px;
+        }
+        
+        li { margin-bottom: 8px; }
+        
+        .next-steps {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 32px;
+            margin-top: 48px;
+        }
+        
+        .next-steps h3 {
+            margin-top: 0;
+            color: var(--text);
+        }
+        
+        .next-steps a {
+            color: var(--primary);
+            text-decoration: none;
+        }
+        
+        .next-steps a:hover {
+            text-decoration: underline;
+        }
+        
+        footer {
+            padding: 40px 0;
+            border-top: 1px solid var(--border);
+            text-align: center;
+            color: var(--text-muted);
+            margin-top: 80px;
+        }
+        
+        footer a {
+            color: var(--primary);
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="../index.html" class="logo">⚡ IntentFlow</a>
+            <ul class="nav-links">
+                <li><a href="../SPEC.html">Specification</a></li>
+                <li><a href="https://github.com/PavelRavvich/intentflow/tree/master/examples">Examples</a></li>
+                <li><a href="https://github.com/PavelRavvich/intentflow">GitHub</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="container">
+        <h1>Getting Started</h1>
+        <p class="subtitle">Write your first IntentFlow workflow in 10 minutes</p>
+
+        <h2><span class="step-number">1</span>Create a Workflow File</h2>
+        
+        <p>Create a new file called <code>my-workflow.md</code> and add the basic structure:</p>
+        
+        <div class="workflow-example">
+            <div class="workflow-header">
+                <div class="workflow-dots"><span></span><span></span><span></span></div>
+                <span class="workflow-title">my-workflow.md</span>
+            </div>
+            <pre class="workflow-content"><span class="heading"># Workflow: Daily Weather Report</span>
+
+<span class="heading">## Meta</span>
+version: 1.0
+estimated_time: 5 minutes
+
+<span class="heading">## Context</span>
+Fetch weather data and create a simple summary report.</pre>
+        </div>
+
+        <h2><span class="step-number">2</span>Add Your First Step</h2>
+        
+        <p>Each step needs a <strong>Task</strong> that describes what to accomplish:</p>
+        
+        <div class="workflow-example">
+            <div class="workflow-header">
+                <div class="workflow-dots"><span></span><span></span><span></span></div>
+                <span class="workflow-title">my-workflow.md (continued)</span>
+            </div>
+            <pre class="workflow-content"><span class="heading">## Step 1: Fetch Weather Data</span>
+
+<span class="subheading">### Task</span>
+Get the current weather for San Francisco from any weather API.
+Save the temperature, conditions, and humidity.
+
+<span class="subheading">### Save as</span>
+<span class="string">`/tmp/workflow/weather.json`</span>
+
+<span class="subheading">### Success criteria</span>
+- File contains temperature in Fahrenheit
+- File contains current conditions (sunny, cloudy, etc.)
+- File contains humidity percentage</pre>
+        </div>
+
+        <div class="tip">
+            <div class="tip-title">💡 Key Insight</div>
+            <p>Notice how we describe <strong>what</strong> we want, not <strong>how</strong> to get it. The LLM will figure out which API to use and how to call it.</p>
+        </div>
+
+        <h2><span class="step-number">3</span>Add More Steps</h2>
+        
+        <p>Steps are connected through files. The output of Step 1 becomes input for Step 2:</p>
+        
+        <div class="workflow-example">
+            <div class="workflow-header">
+                <div class="workflow-dots"><span></span><span></span><span></span></div>
+                <span class="workflow-title">my-workflow.md (continued)</span>
+            </div>
+            <pre class="workflow-content"><span class="heading">## Step 2: Generate Report</span>
+
+<span class="subheading">### Task</span>
+Create a simple text report with:
+- Current temperature and conditions
+- A recommendation (umbrella, sunscreen, jacket)
+- Tomorrow's outlook if available
+
+<span class="subheading">### Flexibility</span>
+Format the report however you think is most readable.
+
+<span class="subheading">### Save as</span>
+<span class="string">`/tmp/workflow/weather_report.txt`</span>
+
+<span class="subheading">### Success criteria</span>
+- File exists and is readable
+- Contains all requested information</pre>
+        </div>
+
+        <h2><span class="step-number">4</span>Add Finalization</h2>
+        
+        <div class="workflow-example">
+            <div class="workflow-header">
+                <div class="workflow-dots"><span></span><span></span><span></span></div>
+                <span class="workflow-title">my-workflow.md (continued)</span>
+            </div>
+            <pre class="workflow-content"><span class="heading">## Finalization</span>
+
+<span class="subheading">### After completion</span>
+Display the contents of the report.
+
+<span class="subheading">### If something went wrong</span>
+Show what data was retrieved and where the error occurred.</pre>
+        </div>
+
+        <h2><span class="step-number">5</span>Run Your Workflow</h2>
+        
+        <p>Simply provide the workflow to an LLM with tool access:</p>
+        
+        <pre><code>Please execute this workflow:
+
+[paste your workflow here]</code></pre>
+
+        <p>Or if the LLM has file access:</p>
+        
+        <pre><code>Please execute the workflow in my-workflow.md</code></pre>
+
+        <p>The LLM will:</p>
+        <ol>
+            <li>Read and understand the workflow</li>
+            <li>Execute each step in order</li>
+            <li>Verify success criteria</li>
+            <li>Handle any errors according to your instructions</li>
+            <li>Provide the finalization summary</li>
+        </ol>
+
+        <h2>Key Concepts</h2>
+        
+        <table>
+            <thead>
+                <tr>
+                    <th>Section</th>
+                    <th>Purpose</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>Task</code></td>
+                    <td>What to accomplish (required)</td>
+                </tr>
+                <tr>
+                    <td><code>Save as</code></td>
+                    <td>Output file path — creates contract between steps</td>
+                </tr>
+                <tr>
+                    <td><code>Success criteria</code></td>
+                    <td>How to verify step completion</td>
+                </tr>
+                <tr>
+                    <td><code>Flexibility</code></td>
+                    <td>Where the LLM can improvise</td>
+                </tr>
+                <tr>
+                    <td><code>If something goes wrong</code></td>
+                    <td>Fallback strategies</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h2>Common Mistakes</h2>
+        
+        <div class="warning">
+            <div class="warning-title">❌ Too vague</div>
+            <pre><code>### Task
+Do the data analysis.</code></pre>
+        </div>
+
+        <div class="tip">
+            <div class="tip-title">✅ Better</div>
+            <pre><code>### Task
+Calculate the average, median, and standard deviation 
+of the 'price' column. Group results by 'category'.</code></pre>
+        </div>
+
+        <div class="warning">
+            <div class="warning-title">❌ Over-specified</div>
+            <pre><code>### Task
+Use requests library to call api.weather.gov endpoint
+/points/37.7749,-122.4194 then parse the JSON response
+using json.loads() and extract the 'temperature' key...</code></pre>
+        </div>
+
+        <div class="tip">
+            <div class="tip-title">✅ Better</div>
+            <pre><code>### Task
+Get current weather for San Francisco.
+Extract temperature and conditions.</code></pre>
+        </div>
+
+        <div class="next-steps">
+            <h3>Next Steps</h3>
+            <ul>
+                <li><a href="../SPEC.html">Read the full specification</a> — all available sections and options</li>
+                <li><a href="mcp-orchestration.html">MCP & Skills orchestration</a> — chain AI tools in workflows</li>
+                <li><a href="https://github.com/PavelRavvich/intentflow/tree/master/examples">Explore examples</a> — real-world workflows</li>
+                <li><a href="flexibility-patterns.html">Flexibility patterns</a> — when to use [strict], [guided], [autonomous]</li>
+            </ul>
+        </div>
+    </main>
+
+    <footer>
+        <p><a href="../index.html">← Back to Home</a> · MIT License · <a href="https://github.com/PavelRavvich/intentflow">GitHub</a></p>
+    </footer>
+</body>
+</html>

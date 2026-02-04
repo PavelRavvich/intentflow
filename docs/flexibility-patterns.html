@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flexibility Patterns - IntentFlow</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <style>
+        :root {
+            --primary: #6366f1;
+            --secondary: #8b5cf6;
+            --bg: #0f0f1a;
+            --bg-card: #1a1a2e;
+            --bg-code: #252540;
+            --text: #e2e8f0;
+            --text-muted: #94a3b8;
+            --border: #2d2d4a;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.7;
+        }
+        header {
+            padding: 20px 0;
+            border-bottom: 1px solid var(--border);
+            position: sticky;
+            top: 0;
+            background: rgba(15, 15, 26, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 100;
+        }
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-decoration: none;
+        }
+        .nav-links { display: flex; gap: 24px; list-style: none; }
+        .nav-links a { color: var(--text-muted); text-decoration: none; font-weight: 500; }
+        .nav-links a:hover { color: var(--text); }
+        .container { max-width: 900px; margin: 0 auto; padding: 60px 24px; }
+        #content h1 {
+            font-size: 2.5rem;
+            margin-bottom: 24px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        #content h2 { font-size: 1.75rem; margin: 48px 0 24px; padding-top: 24px; border-top: 1px solid var(--border); }
+        #content h3 { font-size: 1.25rem; margin: 32px 0 16px; color: var(--primary); }
+        #content h4 { font-size: 1.1rem; margin: 24px 0 12px; color: var(--secondary); }
+        #content p { margin-bottom: 16px; }
+        #content code { font-family: 'JetBrains Mono', monospace; background: var(--bg-code); padding: 2px 8px; border-radius: 4px; font-size: 0.9em; }
+        #content pre { background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; padding: 20px 24px; overflow-x: auto; margin: 20px 0; }
+        #content pre code { background: none; padding: 0; font-size: 0.875rem; line-height: 1.7; }
+        #content ul, #content ol { margin: 16px 0; padding-left: 24px; }
+        #content li { margin-bottom: 8px; }
+        #content table { width: 100%; border-collapse: collapse; margin: 24px 0; }
+        #content th, #content td { padding: 12px 16px; text-align: left; border-bottom: 1px solid var(--border); }
+        #content th { background: var(--bg-card); font-weight: 600; }
+        #content strong { color: var(--text); font-weight: 600; }
+        #content a { color: var(--primary); text-decoration: none; }
+        #content a:hover { text-decoration: underline; }
+        #content hr { border: none; border-top: 1px solid var(--border); margin: 48px 0; }
+        footer { padding: 40px 24px; border-top: 1px solid var(--border); text-align: center; color: var(--text-muted); }
+        footer a { color: var(--primary); text-decoration: none; }
+        @media (max-width: 768px) { .nav-links { display: none; } }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="../index.html" class="logo">⚡ IntentFlow</a>
+            <ul class="nav-links">
+                <li><a href="getting-started.html">Getting Started</a></li>
+                <li><a href="../SPEC.html">Specification</a></li>
+                <li><a href="https://github.com/PavelRavvich/intentflow">GitHub</a></li>
+            </ul>
+        </nav>
+    </header>
+    <div class="container">
+        <div id="content"></div>
+    </div>
+    <footer>
+        <p><a href="../index.html">← Back to Home</a> · MIT License · <a href="https://github.com/PavelRavvich/intentflow">GitHub</a></p>
+    </footer>
+    <script>
+        fetch('flexibility-patterns.md')
+            .then(response => response.text())
+            .then(markdown => {
+                document.getElementById('content').innerHTML = marked.parse(markdown);
+            })
+            .catch(err => {
+                document.getElementById('content').innerHTML = '<p>Error loading. <a href="flexibility-patterns.md">View raw</a></p>';
+            });
+    </script>
+</body>
+</html>

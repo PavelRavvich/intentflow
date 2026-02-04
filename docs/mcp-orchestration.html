@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MCP & Skills Orchestration - IntentFlow</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #6366f1;
+            --secondary: #8b5cf6;
+            --bg: #0f0f1a;
+            --bg-card: #1a1a2e;
+            --bg-code: #252540;
+            --text: #e2e8f0;
+            --text-muted: #94a3b8;
+            --border: #2d2d4a;
+            --success: #10b981;
+            --warning: #f59e0b;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.7;
+        }
+        header {
+            padding: 20px 0;
+            border-bottom: 1px solid var(--border);
+            position: sticky;
+            top: 0;
+            background: rgba(15, 15, 26, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 100;
+        }
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-decoration: none;
+        }
+        .nav-links { display: flex; gap: 24px; list-style: none; }
+        .nav-links a { color: var(--text-muted); text-decoration: none; font-weight: 500; }
+        .nav-links a:hover { color: var(--text); }
+        .container { max-width: 900px; margin: 0 auto; padding: 60px 24px; }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 16px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .subtitle { font-size: 1.25rem; color: var(--text-muted); margin-bottom: 48px; }
+        h2 { font-size: 1.75rem; margin: 56px 0 24px; padding-top: 24px; border-top: 1px solid var(--border); }
+        h3 { font-size: 1.25rem; margin: 32px 0 16px; color: var(--primary); }
+        p { margin-bottom: 16px; }
+        
+        code {
+            font-family: 'JetBrains Mono', monospace;
+            background: var(--bg-code);
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 0.9em;
+        }
+        pre {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 20px 24px;
+            overflow-x: auto;
+            margin: 20px 0;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.875rem;
+            line-height: 1.7;
+        }
+        pre code { background: none; padding: 0; }
+        
+        ul, ol { margin: 16px 0; padding-left: 24px; }
+        li { margin-bottom: 8px; }
+        
+        .highlight {
+            background: rgba(99, 102, 241, 0.1);
+            border: 1px solid rgba(99, 102, 241, 0.3);
+            border-radius: 12px;
+            padding: 24px;
+            margin: 32px 0;
+        }
+        .highlight h3 { margin-top: 0; color: var(--primary); }
+        
+        .comparison {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+            margin: 32px 0;
+        }
+        .comparison > div {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 24px;
+        }
+        .comparison h4 {
+            margin-bottom: 16px;
+            font-size: 1rem;
+        }
+        .comparison .bad h4 { color: #f87171; }
+        .comparison .good h4 { color: #34d399; }
+        
+        @media (max-width: 768px) {
+            .comparison { grid-template-columns: 1fr; }
+            .nav-links { display: none; }
+        }
+        
+        footer {
+            padding: 40px 24px;
+            border-top: 1px solid var(--border);
+            text-align: center;
+            color: var(--text-muted);
+            margin-top: 80px;
+        }
+        footer a { color: var(--primary); text-decoration: none; }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="../index.html" class="logo">⚡ IntentFlow</a>
+            <ul class="nav-links">
+                <li><a href="getting-started.html">Getting Started</a></li>
+                <li><a href="../SPEC.html">Specification</a></li>
+                <li><a href="https://github.com/PavelRavvich/intentflow">GitHub</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="container">
+        <h1>MCP & Skills Orchestration</h1>
+        <p class="subtitle">Chain AI tools in declarative, human-readable workflows</p>
+
+        <h2>The Problem</h2>
+        <p>Modern AI agents have access to powerful tools:</p>
+        <ul>
+            <li><strong>MCP (Model Context Protocol)</strong> — External capabilities like databases, APIs, browsers</li>
+            <li><strong>Skills</strong> — Knowledge files that guide how to use tools effectively</li>
+        </ul>
+        <p>But there's no standard way to chain multiple tools, install them on-demand, or document the orchestration in a human-readable format.</p>
+
+        <h2>IntentFlow as Orchestrator</h2>
+        <p>IntentFlow provides a declarative way to orchestrate AI tooling — install, configure, and chain MCP servers and Skills in a single workflow.</p>
+
+        <h3>Installing MCP Servers</h3>
+        <pre><code>## Step 1: Setup Database Access
+
+### Dependencies
+```bash
+npm install -g @anthropic/mcp-server-postgres
+```
+
+### Configuration
+Create MCP config at `~/.config/claude/`:
+- Host: Use `DB_HOST` environment variable
+- Credentials: `DB_USER` / `DB_PASSWORD`
+
+### Task
+Verify connection by listing available tables.</code></pre>
+
+        <h3>Using MCP in Workflows</h3>
+        <pre><code>## Step 2: Query Customer Data
+
+### Task
+Using the Postgres MCP connection from Step 1:
+- Query all customers created in the last 30 days
+- Include their order history
+- Calculate lifetime value
+
+### Save as
+`/tmp/workflow/customers.json`</code></pre>
+
+        <h3>Combining MCP with Skills</h3>
+        <pre><code>## Step 3: Generate Report
+
+### Dependencies
+Read the skill at `/mnt/skills/public/docx/SKILL.md`
+
+### Task
+Following the docx skill instructions, create a professional
+Word document with:
+- Customer acquisition summary
+- Revenue breakdown chart
+- Recommendations section
+
+### Save as
+`/tmp/workflow/customer_report.docx`</code></pre>
+
+        <h2>Multi-Tool Pipelines</h2>
+        <p>A single workflow can orchestrate multiple MCP servers:</p>
+
+        <div class="highlight">
+            <h3>Example: Competitive Analysis Pipeline</h3>
+            <pre><code># Workflow: Competitive Analysis
+
+## Step 1: Web Research
+### Dependencies
+npx @anthropic/mcp-server-puppeteer
+
+### Task
+Using the browser MCP, visit competitor websites and extract
+pricing, features, and recent announcements.
+
+---
+
+## Step 2: Enrich with News
+### Dependencies
+pip install news-api-mcp
+
+### Task
+Search for recent news about each competitor.
+Add sentiment analysis for each article.
+
+---
+
+## Step 3: Store in Database
+### Dependencies
+npm install -g @anthropic/mcp-server-postgres
+
+### Task
+Insert the collected data into the `competitive_intel` table.
+
+---
+
+## Step 4: Generate Insights
+### Flexibility [autonomous]
+Analyze the data and create visualizations that best
+communicate market positioning and opportunities.</code></pre>
+        </div>
+
+        <h2>Why This Matters</h2>
+        
+        <div class="comparison">
+            <div class="bad">
+                <h4>❌ Traditional Approach</h4>
+                <pre><code># Hard-coded, brittle
+from mcp_postgres import connect
+from mcp_browser import Browser
+from news_api import search
+
+db = connect(...)
+browser = Browser()
+# ... 200 lines of code</code></pre>
+            </div>
+            <div class="good">
+                <h4>✅ IntentFlow Approach</h4>
+                <pre><code>## Step 1: Get data
+### Task
+Query the sales table...
+
+## Step 2: Enrich
+### Task
+Search for context...
+
+## Step 3: Report
+### Task
+Create a summary...</code></pre>
+            </div>
+        </div>
+
+        <p>The IntentFlow workflow is:</p>
+        <ul>
+            <li><strong>Readable</strong> by non-programmers</li>
+            <li><strong>Flexible</strong> — AI chooses implementation details</li>
+            <li><strong>Self-documenting</strong> — the workflow IS the documentation</li>
+            <li><strong>Adaptable</strong> — AI handles edge cases gracefully</li>
+        </ul>
+
+        <h2>Limitations</h2>
+        
+        <h3>MCP Registration Timing</h3>
+        <p>Most MCP servers need to be registered at client startup. IntentFlow handles this by:</p>
+        <ol>
+            <li><strong>Installation step</strong> — Install the MCP server package</li>
+            <li><strong>Configuration step</strong> — Generate necessary config files</li>
+            <li><strong>Session restart</strong> — User restarts client (if required)</li>
+            <li><strong>Usage steps</strong> — Workflow continues with MCP available</li>
+        </ol>
+        <p>For MCP servers that work as CLI tools or HTTP services, no restart is needed.</p>
+
+        <h3>Skill Loading</h3>
+        <p>Skills are loaded via the <code>view</code> tool at runtime. Explicitly instruct the LLM to read the skill:</p>
+        <pre><code>### Dependencies
+First, read the skill at `/mnt/skills/public/xlsx/SKILL.md`</code></pre>
+
+        <h2>Best Practices</h2>
+        <ul>
+            <li><strong>Group related MCP setup</strong> — Install and configure in the same step</li>
+            <li><strong>Verify before proceeding</strong> — Add success criteria to confirm tools work</li>
+            <li><strong>Document requirements</strong> — Use the Meta section to list required MCP servers</li>
+            <li><strong>Provide fallbacks</strong> — If an MCP fails, specify alternatives</li>
+        </ul>
+
+        <pre><code>## Meta
+requires: Claude with computer use
+mcp_servers: postgres, puppeteer, news-api
+
+## Step 1: Setup
+### If something goes wrong
+- MCP not available → install it in Dependencies
+- Connection failed → check credentials, retry once
+- Still failing → skip this step, note in final report</code></pre>
+
+    </main>
+
+    <footer>
+        <p><a href="../index.html">← Back to Home</a> · <a href="mcp-orchestration.md">View Markdown</a> · <a href="https://github.com/PavelRavvich/intentflow">GitHub</a></p>
+    </footer>
+</body>
+</html>
